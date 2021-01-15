@@ -37,8 +37,10 @@ if [ ! -f ${FILE_CA_DB_INDEX} ]; then
   cp /dev/null ${FILE_CA_DB_INDEX}
 fi
 
+caConfigFile=${OUTPUT_DIR}/ca.config
+
 #  create the CA requirement to sign the cert
-cat >ca.config <<EOT
+cat >${caConfigFile} <<EOT
 [ ca ]
 default_ca              = default_CA
 [ default_CA ]
@@ -69,16 +71,16 @@ EOT
 
 #  revoke an existing old certificate
 if [ -f ${certCrtFile} ]; then
-  openssl ca -revoke ${certCrtFile} -config ca.config
+  openssl ca -revoke ${certCrtFile} -config ${caConfigFile}
 fi
 
 #  sign the certificate
 echo "CA signing: ${OUTPUT_DIR}/$CERT.csr -> ${certCrtFile}:"
-openssl ca -config ca.config -out ${certCrtFile} -infiles ${OUTPUT_DIR}/$CERT.csr
+openssl ca -config ${caConfigFile} -out ${certCrtFile} -infiles ${OUTPUT_DIR}/$CERT.csr
 echo "CA verifying: ${certCrtFile} <-> CA cert"
 openssl verify -CAfile ${FILE_CA_CRT} ${certCrtFile}
 
 #  cleanup after SSLeay 
-rm -f ca.config
+rm -f ${caConfigFile}
 rm -f ${FILE_CA_DB_SERIAL}.old
 rm -f ${FILE_CA_DB_INDEX}.old

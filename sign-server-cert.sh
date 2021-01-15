@@ -39,9 +39,10 @@ if [ ! -f ${FILE_CA_DB_INDEX} ]; then
   cp /dev/null ${FILE_CA_DB_INDEX}
 fi
 
+caConfigFile=${OUTPUT_DIR}/ca.config
 
 #  create the CA requirement to sign the cert
-cat >ca.config <<EOT
+cat >${caConfigFile} <<EOT
 [ ca ]
 default_ca              = default_CA
 [ default_CA ]
@@ -84,24 +85,24 @@ subjaltnames="`openssl req -text -noout -in ${cnCsrFile} | sed -e 's/^ *//' | gr
 if [ "$subjaltnames" != "" ]; then
     echo "Found subject alternate names: $subjaltnames"
     echo ""
-    echo "subjectAltName          = $subjaltnames" >> ca.config
+    echo "subjectAltName = $subjaltnames" >> ${caConfigFile}
 fi
 
 #  revoke an existing old certificate
 if [ -f $CN.crt ]; then
     echo "Revoking current certificate: $CN.crt"
-    openssl ca -revoke $CN.crt -config ca.config
+    openssl ca -revoke $CN.crt -config ${caConfigFile}
 fi
 
 #  sign the certificate
 echo "CA signing: ${cnCsrFile} -> $CN.crt:"
-openssl ca -config ca.config -extensions v3_req -out $CN.crt -infiles ${cnCsrFile}
+openssl ca -config ${caConfigFile} -extensions v3_req -out $CN.crt -infiles ${cnCsrFile}
 echo ""
 echo "CA verifying: $CN.crt <-> CA cert"
 openssl verify -CAfile ${FILE_CA_CRT} $CN.crt
 echo ""
 
 #  cleanup after SSLeay 
-rm -f ca.config
+rm -f ${caConfigFile}
 rm -f ${FILE_CA_DB_SERIAL}.old
 rm -f ${FILE_CA_DB_INDEX}.old
