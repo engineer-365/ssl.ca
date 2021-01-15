@@ -27,8 +27,8 @@ fi
 # Sign it with our CA key #
 
 #   make sure environment exists
-if [ ! -d ca.db.certs ]; then
-    mkdir ca.db.certs
+if [ ! -d ${DIR_CA_DB_CERTS} ]; then
+    mkdir -p ${DIR_CA_DB_CERTS}
 fi
 if [ ! -f ca.db.serial ]; then
     echo '01' >ca.db.serial
@@ -45,7 +45,7 @@ default_ca              = default_CA
 [ default_CA ]
 dir                     = .
 certs                   = \$dir
-new_certs_dir           = \$dir/ca.db.certs
+new_certs_dir           = ${DIR_CA_DB_CERTS}
 database                = \$dir/ca.db.index
 serial                  = \$dir/ca.db.serial
 RANDFILE                = ${RANDOM_SRC}

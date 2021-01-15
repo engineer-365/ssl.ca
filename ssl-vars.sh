@@ -17,3 +17,4 @@ fi
 
 FILE_CA_KEY=${OUTPUT_DIR}/ca.key
 FILE_CA_CRT=${OUTPUT_DIR}/ca.crt
+DIR_CA_DB_CERTS=${OUTPUT_DIR}/ca.db.certs
