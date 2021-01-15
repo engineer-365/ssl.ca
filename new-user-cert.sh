@@ -57,7 +57,7 @@ nsCertType = client, email, objsign
 EOT
 
 echo "Fill in certificate data"
-openssl req -new -config $CONFIG -key ${certKeyFile} -out $CERT.csr
+openssl req -new -config $CONFIG -key ${certKeyFile} -out ${OUTPUT_DIR}/$CERT.csr
 
 rm -f $CONFIG
 

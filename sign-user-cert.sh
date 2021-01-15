@@ -12,8 +12,8 @@ if [ $# -ne 1 ]; then
         echo "Usage: $0 user@email.address.com"
         exit 1
 fi
-if [ ! -f $CERT.csr ]; then
-        echo "No $CERT.csr found. You must create that first."
+if [ ! -f ${OUTPUT_DIR}/$CERT.csr ]; then
+        echo "No ${OUTPUT_DIR}/$CERT.csr found. You must create that first."
 	exit 1
 fi
 # Check for root CA key
@@ -71,8 +71,8 @@ if [ -f $CERT.crt ]; then
 fi
 
 #  sign the certificate
-echo "CA signing: $CERT.csr -> $CERT.crt:"
-openssl ca -config ca.config -out $CERT.crt -infiles $CERT.csr
+echo "CA signing: ${OUTPUT_DIR}/$CERT.csr -> $CERT.crt:"
+openssl ca -config ca.config -out $CERT.crt -infiles ${OUTPUT_DIR}/$CERT.csr
 echo "CA verifying: $CERT.crt <-> CA cert"
 openssl verify -CAfile ${FILE_CA_CRT} $CERT.crt
 
