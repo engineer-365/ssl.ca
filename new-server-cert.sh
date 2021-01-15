@@ -89,7 +89,7 @@ if [ "$subjectAltNames" != "" ]; then
 
         # determine if this looks like an IP or a DNS name
         echo $san | egrep '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$' &> /dev/null
-    if [ $? -eq 0 ]; then
+        if [ $? -eq 0 ]; then
             echo "IP.$numi = $san" >> $CONFIG
             let numi++
         else
