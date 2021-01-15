@@ -19,7 +19,7 @@ if [ ! -f $CN.csr ]; then
 	exit 1
 fi
 # Check for root CA key
-if [ ! -f ${FILE_CA_KEY} -o ! -f ca.crt ]; then
+if [ ! -f ${FILE_CA_KEY} -o ! -f ${FILE_CA_CRT} ]; then
 	echo "You must have root CA key generated first."
 	exit 1
 fi
@@ -49,7 +49,7 @@ new_certs_dir           = \$dir/ca.db.certs
 database                = \$dir/ca.db.index
 serial                  = \$dir/ca.db.serial
 RANDFILE                = ${RANDOM_SRC}
-certificate             = \$dir/ca.crt
+certificate             = ${FILE_CA_CRT}
 private_key             = ${FILE_CA_KEY}
 default_days            = ${SERVER_VALID_DAYS}
 default_crl_days        = 30
@@ -96,7 +96,7 @@ echo "CA signing: $CN.csr -> $CN.crt:"
 openssl ca -config ca.config -extensions v3_req -out $CN.crt -infiles $CN.csr
 echo ""
 echo "CA verifying: $CN.crt <-> CA cert"
-openssl verify -CAfile ca.crt $CN.crt
+openssl verify -CAfile ${FILE_CA_CRT} $CN.crt
 echo ""
 
 #  cleanup after SSLeay 

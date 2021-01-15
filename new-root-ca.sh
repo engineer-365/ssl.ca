@@ -52,6 +52,6 @@ nsCertType			= objsign,email,server
 EOT
 
 echo "Self-sign the root CA..."
-openssl req -new -x509 -days ${ROOT_CA_VALID_DAYS} -config $CONFIG -key ${FILE_CA_KEY} -out ca.crt
+openssl req -new -x509 -days ${ROOT_CA_VALID_DAYS} -config $CONFIG -key ${FILE_CA_KEY} -out ${FILE_CA_CRT}
 
 rm -f $CONFIG

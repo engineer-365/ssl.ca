@@ -16,7 +16,7 @@ if [ $# -ne 1 ]; then
 fi
 
 # Check for requirement
-if [ ! -f $CERT.key -o ! -f $CERT.crt -o ! -f ca.crt ]; then
+if [ ! -f $CERT.key -o ! -f $CERT.crt -o ! -f ${FILE_CA_CRT} ]; then
 	echo ""
         echo "Cannot proceed because:"
 	echo "1. Must have root CA certification"
@@ -27,14 +27,14 @@ if [ ! -f $CERT.key -o ! -f $CERT.crt -o ! -f ca.crt ]; then
 fi
 
 username="`openssl x509 -noout  -in $CERT.crt -subject | sed -e 's;.*CN=;;' -e 's;/Em.*;;'`"
-caname="`openssl x509 -noout  -in ca.crt -subject | sed -e 's;.*CN=;;' -e 's;/Em.*;;'`"
+caname="`openssl x509 -noout  -in ${FILE_CA_CRT} -subject | sed -e 's;.*CN=;;' -e 's;/Em.*;;'`"
 
 # Package it.
 openssl pkcs12 \
 	-export \
 	-in "$CERT.crt" \
 	-inkey "$CERT.key" \
-	-certfile ca.crt \
+	-certfile ${FILE_CA_CRT} \
 	-name "$username" \
 	-caname "$caname" \
 	-out $CERT.p12

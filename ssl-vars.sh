@@ -16,3 +16,4 @@ if [ ! -d ${OUTPUT_DIR} ]; then
 fi
 
 FILE_CA_KEY=${OUTPUT_DIR}/ca.key
+FILE_CA_CRT=${OUTPUT_DIR}/ca.crt
