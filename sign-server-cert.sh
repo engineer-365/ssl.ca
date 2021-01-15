@@ -40,6 +40,7 @@ if [ ! -f ${FILE_CA_DB_INDEX} ]; then
 fi
 
 caConfigFile=${OUTPUT_DIR}/ca.config
+cnCrtFile = ${OUTPUT_DIR}/$CN.crt
 
 #  create the CA requirement to sign the cert
 cat >${caConfigFile} <<EOT
@@ -47,7 +48,7 @@ cat >${caConfigFile} <<EOT
 default_ca              = default_CA
 [ default_CA ]
 dir                     = .
-certs                   = \$dir
+certs                   = ${OUTPUT_DIR}
 new_certs_dir           = ${DIR_CA_DB_CERTS}
 database                = ${FILE_CA_DB_INDEX}
 serial                  = ${FILE_CA_DB_SERIAL}
@@ -89,17 +90,17 @@ if [ "$subjaltnames" != "" ]; then
 fi
 
 #  revoke an existing old certificate
-if [ -f $CN.crt ]; then
-    echo "Revoking current certificate: $CN.crt"
-    openssl ca -revoke $CN.crt -config ${caConfigFile}
+if [ -f ${cnCrtFile} ]; then
+    echo "Revoking current certificate: ${cnCrtFile}"
+    openssl ca -revoke ${cnCrtFile} -config ${caConfigFile}
 fi
 
 #  sign the certificate
-echo "CA signing: ${cnCsrFile} -> $CN.crt:"
-openssl ca -config ${caConfigFile} -extensions v3_req -out $CN.crt -infiles ${cnCsrFile}
+echo "CA signing: ${cnCsrFile} -> ${cnCrtFile}:"
+openssl ca -config ${caConfigFile} -extensions v3_req -out ${cnCrtFile} -infiles ${cnCsrFile}
 echo ""
-echo "CA verifying: $CN.crt <-> CA cert"
-openssl verify -CAfile ${FILE_CA_CRT} $CN.crt
+echo "CA verifying: ${cnCrtFile} <-> CA cert"
+openssl verify -CAfile ${FILE_CA_CRT} ${cnCrtFile}
 echo ""
 
 #  cleanup after SSLeay 

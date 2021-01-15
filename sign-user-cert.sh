@@ -45,7 +45,7 @@ cat >${caConfigFile} <<EOT
 default_ca              = default_CA
 [ default_CA ]
 dir                     = .
-certs                   = \$dir
+certs                   = ${OUTPUT_DIR}
 new_certs_dir           = ${DIR_CA_DB_CERTS}
 database                = ${FILE_CA_DB_INDEX}
 serial                  = ${FILE_CA_DB_SERIAL}
