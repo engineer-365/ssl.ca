@@ -34,7 +34,7 @@ Debian/Ubuntu and RHEL/CentOS derived systems, this is included in the
 
 The steps to get started are:
 
-1. Create a root certificate
+1. Create a new Root CA certificate
 2. Create a server certificate
 3. Sign the server certificate
 
@@ -49,8 +49,9 @@ certificates are created with 2 year expiration dates.
 
 ## Examples
 
+### Preparation - Edit the `ssl-vars.sh` to change something to what you want
 
-### Create a new Root CA certificate
+### 1. Create a new Root CA certificate
 
 This creates the self-signed root certificate for your new CA. This certificate
 will be used to sign all other certificates and must be trusted by the clients
@@ -90,7 +91,7 @@ This process creates these two files:
 
 
 
-### Create and sign a new server certificate
+### 2. Create a server certificate
 
 This example creates a server certificate with two Subject Alternate
 Names. This web server would presumably respond to these DNS host names:
@@ -134,6 +135,8 @@ This process creates these two files:
 The CSR is the file that carries the information that the CA needs in order to
 create the certificate (CRT) file that is delivered to the server's clients.
 
+### 3. Sign a new server certificate
+
 ```
 $ ./sign-server-cert.sh www.example.com
 Found subject alternate names: DNS:www.example.com, DNS:example.com,
@@ -168,7 +171,7 @@ This process creates one new file:
 
 
 
-### Create a wildcard certificate
+### 3 - alternative. Create a wildcard certificate
 
 This example creates a wildcard certificate with a SAN that matches the base
 domain name. These are the DNS names that will match the final certificate:
