@@ -41,6 +41,7 @@ localityName_default           = Austin
 organizationalUnitName         = Organizational Unit Name (eg, section)
 organizationalUnitName_default = Certification Services Division
 commonName                     = Common Name (eg, MD Root CA)
+commonName_default             = My Root CA
 commonName_max                 = 64
 emailAddress                   = Email Address
 emailAddress_max               = 40
