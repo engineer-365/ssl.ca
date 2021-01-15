@@ -40,7 +40,7 @@ openssl pkcs12 \
   -certfile ${FILE_CA_CRT} \
   -name "$username" \
   -caname "$caname" \
-  -out $CERT.p12
+  -out ${OUTPUT_DIR}/$CERT.p12
 
 echo ""
 echo "The certificate for $CERT has been collected into a pkcs12 file."
