@@ -6,6 +6,7 @@ ROOT_CA_VALID_DAYS=3650
 SERVER_VALID_DAYS=730
 CLIENT_VALID_DAYS=730
 RANDOM_SRC=/dev/urandom
+ORG_NAME="example-org"
 
 OUTPUT_DIR=${this_dir}/output
 if [ ! -d ${OUTPUT_DIR} ]; then
