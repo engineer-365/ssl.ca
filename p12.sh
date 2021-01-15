@@ -4,6 +4,11 @@
 ##  Copyright (c) 2000 Yeak Nai Siew, All Rights Reserved. 
 ##
 
+set -x
+
+export readonly this_dir=$(cd "$(dirname $0)";pwd)
+source $this_dir/ssl-vars.sh
+
 CERT=$1
 if [ $# -ne 1 ]; then
         echo "Usage: $0 user@email.address.com"

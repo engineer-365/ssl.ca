@@ -4,9 +4,8 @@
 ##  Copyright (c) 2000 Yeak Nai Siew, All Rights Reserved. 
 ##
 
-HASHALGO="sha256"
-VALID_DAYS=730
-RANDOM_SRC=/dev/urandom
+export readonly this_dir=$(cd "$(dirname $0)";pwd)
+source $this_dir/ssl-vars.sh
 
 CERT=$1
 if [ $# -ne 1 ]; then
@@ -49,7 +48,7 @@ serial                  = \$dir/ca.db.serial
 RANDFILE                = ${RANDOM_SRC}
 certificate             = \$dir/ca.crt
 private_key             = \$dir/ca.key
-default_days            = ${VALID_DAYS}
+default_days            = ${CLIENT_VALID_DAYS}
 default_crl_days        = 30
 default_md              = $HASHALGO
 preserve                = yes

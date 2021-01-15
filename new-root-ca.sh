@@ -4,10 +4,10 @@
 ##  Copyright (c) 2000 Yeak Nai Siew, All Rights Reserved. 
 ##
 
-KEYBITS=2048
-HASHALGO="sha256"
-VALID_DAYS=3650
-RANDOM_SRC=/dev/urandom
+set -x
+
+export readonly this_dir=$(cd "$(dirname $0)";pwd)
+source $this_dir/ssl-vars.sh
 
 # Create the master CA key. This should be done once.
 if [ ! -f ca.key ]; then
@@ -52,6 +52,6 @@ nsCertType			= objsign,email,server
 EOT
 
 echo "Self-sign the root CA..."
-openssl req -new -x509 -days ${VALID_DAYS} -config $CONFIG -key ca.key -out ca.crt
+openssl req -new -x509 -days ${ROOT_CA_VALID_DAYS} -config $CONFIG -key ca.key -out ca.crt
 
 rm -f $CONFIG

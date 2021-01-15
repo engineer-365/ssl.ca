@@ -4,8 +4,11 @@
 ##  Copyright (c) 2000 Yeak Nai Siew, All Rights Reserved. 
 ##
 
-KEYBITS=2048
-HASHALGO="sha256"
+set -x
+
+export readonly this_dir=$(cd "$(dirname $0)";pwd)
+source $this_dir/ssl-vars.sh
+
 
 # Create the key. This should be done once per cert.
 CERT=$1
