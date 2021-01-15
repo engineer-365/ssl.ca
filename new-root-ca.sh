@@ -17,7 +17,7 @@ if [ ! -f ${FILE_CA_KEY} ]; then
 fi
 
 # Self-sign it.
-CONFIG="root-ca.conf"
+CONFIG="${OUTPUT_DIR}/root-ca.conf"
 cat >$CONFIG <<EOT
 [ req ]
 default_bits			= $KEYBITS
