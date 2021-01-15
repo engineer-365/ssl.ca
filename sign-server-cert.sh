@@ -19,7 +19,7 @@ if [ ! -f $CN.csr ]; then
 	exit 1
 fi
 # Check for root CA key
-if [ ! -f ca.key -o ! -f ca.crt ]; then
+if [ ! -f ${FILE_CA_KEY} -o ! -f ca.crt ]; then
 	echo "You must have root CA key generated first."
 	exit 1
 fi
@@ -50,7 +50,7 @@ database                = \$dir/ca.db.index
 serial                  = \$dir/ca.db.serial
 RANDFILE                = ${RANDOM_SRC}
 certificate             = \$dir/ca.crt
-private_key             = \$dir/ca.key
+private_key             = ${FILE_CA_KEY}
 default_days            = ${SERVER_VALID_DAYS}
 default_crl_days        = 30
 default_md              = $HASHALGO

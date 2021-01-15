@@ -10,9 +10,9 @@ export readonly this_dir=$(cd "$(dirname $0)";pwd)
 source $this_dir/ssl-vars.sh
 
 # Create the master CA key. This should be done once.
-if [ ! -f ca.key ]; then
+if [ ! -f ${FILE_CA_KEY} ]; then
 	echo "No Root CA key found. Generating one"
-	openssl genrsa -aes256 -out ca.key -rand ${RANDOM_SRC} $KEYBITS
+	openssl genrsa -aes256 -out ${FILE_CA_KEY} -rand ${RANDOM_SRC} $KEYBITS
 	echo ""
 fi
 
@@ -21,7 +21,7 @@ CONFIG="root-ca.conf"
 cat >$CONFIG <<EOT
 [ req ]
 default_bits			= $KEYBITS
-default_keyfile			= ca.key
+default_keyfile			= ${FILE_CA_KEY}
 default_md              = $HASHALGO
 distinguished_name		= req_distinguished_name
 x509_extensions			= v3_ca
@@ -52,6 +52,6 @@ nsCertType			= objsign,email,server
 EOT
 
 echo "Self-sign the root CA..."
-openssl req -new -x509 -days ${ROOT_CA_VALID_DAYS} -config $CONFIG -key ca.key -out ca.crt
+openssl req -new -x509 -days ${ROOT_CA_VALID_DAYS} -config $CONFIG -key ${FILE_CA_KEY} -out ca.crt
 
 rm -f $CONFIG
