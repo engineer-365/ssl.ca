@@ -349,15 +349,6 @@ certificate it creates is then used to sign all of your server and client
 certificates. These are the typical customizations that you will want to make
 within that script.
 
-Operating parameters:
-
-```
-KEYBITS=2048
-HASHALGO="sha256"
-VALID_DAYS=3650
-RANDOM_SRC=/dev/urandom
-```
-
 Defaults for the certificate contents:
 
 ```
@@ -381,13 +372,6 @@ that you will want to make within those scripts.
 
 These changes are made in the `new-server-cert.sh` script.
 
-Operating parameters:
-
-```
-KEYBITS=2048
-HASHALGO="sha256"
-```
-
 Defaults for the certificate contents:
 
 ```
@@ -404,15 +388,6 @@ organizationalUnitName_default  = Secure Server
 
 These changes are made in the `sign-server-cert.sh` script.
 
-Operating parameters:
-
-```
-HASHALGO="sha256"
-VALID_DAYS=730
-RANDOM_SRC=/dev/urandom
-```
-
-
 ### User Certificates
 
 The user certificates are created with the `new-user-cert.sh` and signed with
@@ -424,27 +399,9 @@ will want to make within those scripts.
 
 These changes are made in the `new-user-cert.sh` script.
 
-Operating parameters:
-
-```
-KEYBITS=2048
-HASHALGO="sha256"
-```
-
-
 #### Signing
 
 These changes are made in the `sign-user-cert.sh` script.
-
-Operating parameters:
-
-```
-HASHALGO="sha256"
-VALID_DAYS=730
-RANDOM_SRC=/dev/urandom
-```
-
-
 
 ### Entropy Source
 
