@@ -10,17 +10,19 @@ export readonly this_dir=$(cd "$(dirname $0)";pwd)
 source $this_dir/ssl-vars.sh
 
 CERT=$1
+certKeyFile="${OUTPUT_DIR}/$CERT.key"
+
 if [ $# -ne 1 ]; then
         echo "Usage: $0 user@email.address.com"
         exit 1
 fi
 
 # Check for requirement
-if [ ! -f $CERT.key -o ! -f $CERT.crt -o ! -f ${FILE_CA_CRT} ]; then
+if [ ! -f ${certKeyFile} -o ! -f $CERT.crt -o ! -f ${FILE_CA_CRT} ]; then
 	echo ""
         echo "Cannot proceed because:"
 	echo "1. Must have root CA certification"
-	echo "2. Must have $CERT.key"
+	echo "2. Must have ${certKeyFile}"
 	echo "1. Must have $CERT.crt"
 	echo ""
 	exit 1
@@ -33,7 +35,7 @@ caname="`openssl x509 -noout  -in ${FILE_CA_CRT} -subject | sed -e 's;.*CN=;;' -
 openssl pkcs12 \
 	-export \
 	-in "$CERT.crt" \
-	-inkey "$CERT.key" \
+	-inkey "${certKeyFile}" \
 	-certfile ${FILE_CA_CRT} \
 	-name "$username" \
 	-caname "$caname" \

@@ -12,22 +12,24 @@ source $this_dir/ssl-vars.sh
 
 # Create the key. This should be done once per cert.
 CERT=$1
+certKeyFile="${OUTPUT_DIR}/$CERT.key"
+
 if [ $# -ne 1 ]; then
         echo "Usage: $0 user@email.address.com"
         exit 1
 fi
 
 # if private key exists, ask if we want to generate a new key
-if [ -f $CERT.key ]; then
+if [ -f ${certKeyFile} ]; then
   read -p "a key for this cn is already existing, generate a new one? " ANSWER
   if [ "$ANSWER" == "Y" ] || [ "$ANSWER" == "y" ]; then
-    rm -f $CERT.key
+    rm -f ${certKeyFile}
   fi
 fi
 
-if [ ! -f $CERT.key ]; then
-	echo "No $CERT.key found. Generating one"
-	openssl genrsa -out $CERT.key $KEYBITS
+if [ ! -f ${certKeyFile} ]; then
+	echo "No ${certKeyFile} found. Generating one"
+	openssl genrsa -out ${certKeyFile} $KEYBITS
 	echo ""
 fi
 
@@ -55,7 +57,7 @@ nsCertType = client, email, objsign
 EOT
 
 echo "Fill in certificate data"
-openssl req -new -config $CONFIG -key $CERT.key -out $CERT.csr
+openssl req -new -config $CONFIG -key ${certKeyFile} -out $CERT.csr
 
 rm -f $CONFIG
 
