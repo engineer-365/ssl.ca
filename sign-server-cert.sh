@@ -10,12 +10,14 @@ export readonly this_dir=$(cd "$(dirname $0)";pwd)
 source $this_dir/ssl-vars.sh
 
 CN=$1
+cnCsrFile="${OUTPUT_DIR}/$CN.csr"
+
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <www.domain.com>"
   exit 1
 fi
-if [ ! -f $CN.csr ]; then
-  echo "No $CN.csr found. You must create that first."
+if [ ! -f ${cnCsrFile} ]; then
+  echo "No ${cnCsrFile} found. You must create that first."
   exit 1
 fi
 # Check for root CA key
@@ -78,7 +80,7 @@ extendedKeyUsage        = serverAuth, clientAuth
 EOT
 
 # Test for Subject Alternate Names
-subjaltnames="`openssl req -text -noout -in $CN.csr | sed -e 's/^ *//' | grep -A1 'X509v3 Subject Alternative Name:' | tail -1 | sed -e 's/IP Address:/IP:/g'`"
+subjaltnames="`openssl req -text -noout -in ${cnCsrFile} | sed -e 's/^ *//' | grep -A1 'X509v3 Subject Alternative Name:' | tail -1 | sed -e 's/IP Address:/IP:/g'`"
 if [ "$subjaltnames" != "" ]; then
     echo "Found subject alternate names: $subjaltnames"
     echo ""
@@ -92,8 +94,8 @@ if [ -f $CN.crt ]; then
 fi
 
 #  sign the certificate
-echo "CA signing: $CN.csr -> $CN.crt:"
-openssl ca -config ca.config -extensions v3_req -out $CN.crt -infiles $CN.csr
+echo "CA signing: ${cnCsrFile} -> $CN.crt:"
+openssl ca -config ca.config -extensions v3_req -out $CN.crt -infiles ${cnCsrFile}
 echo ""
 echo "CA verifying: $CN.crt <-> CA cert"
 openssl verify -CAfile ${FILE_CA_CRT} $CN.crt
