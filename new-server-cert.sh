@@ -35,11 +35,11 @@ if [ ! -f $CN.key ]; then
 fi
 
 # Fill the necessary certificate data
-CONFIG="server-cert.conf"
+CONFIG="${OUTPUT_DIR}/server-cert.conf"
 cat >$CONFIG <<EOT
 [ req ]
 default_bits			= $KEYBITS
-default_keyfile			= server.key
+default_keyfile			= ${FILE_DEFAULT_SERVER_KEY}
 default_md              = $HASHALGO
 distinguished_name		= req_distinguished_name
 string_mask			= nombstr
