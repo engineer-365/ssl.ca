@@ -8,6 +8,8 @@ export readonly this_dir=$(cd "$(dirname $0)";pwd)
 source $this_dir/ssl-vars.sh
 
 CERT=$1
+certCrtFile="${OUTPUT_DIR}/$CERT.crt"
+
 if [ $# -ne 1 ]; then
   echo "Usage: $0 user@email.address.com"
   exit 1
@@ -66,15 +68,15 @@ extendedKeyUsage        = clientAuth,emailProtection
 EOT
 
 #  revoke an existing old certificate
-if [ -f $CERT.crt ]; then
-  openssl ca -revoke $CERT.crt -config ca.config
+if [ -f ${certCrtFile} ]; then
+  openssl ca -revoke ${certCrtFile} -config ca.config
 fi
 
 #  sign the certificate
-echo "CA signing: ${OUTPUT_DIR}/$CERT.csr -> $CERT.crt:"
-openssl ca -config ca.config -out $CERT.crt -infiles ${OUTPUT_DIR}/$CERT.csr
-echo "CA verifying: $CERT.crt <-> CA cert"
-openssl verify -CAfile ${FILE_CA_CRT} $CERT.crt
+echo "CA signing: ${OUTPUT_DIR}/$CERT.csr -> ${certCrtFile}:"
+openssl ca -config ca.config -out ${certCrtFile} -infiles ${OUTPUT_DIR}/$CERT.csr
+echo "CA verifying: ${certCrtFile} <-> CA cert"
+openssl verify -CAfile ${FILE_CA_CRT} ${certCrtFile}
 
 #  cleanup after SSLeay 
 rm -f ca.config
