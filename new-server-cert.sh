@@ -20,17 +20,19 @@ fi
 # force the CN to become a SAN even if no other SANs; Chrome compatibility
 subjectAltNames="$*"
 
+cnKeyFile="${OUTPUT_DIR}/$CN.key"
+
 # if private key exists, ask if we want to generate a new key
-if [ -f $CN.key ]; then
+if [ -f ${cnKeyFile} ]; then
     read -p "a key for this cn is already existing, generate a new one? " ANSWER
     if [ "$ANSWER" == "Y" ] || [ "$ANSWER" == "y" ]; then
-        rm -f $CN.key
+        rm -f ${cnKeyFile}
     fi
 fi
 
-if [ ! -f $CN.key ]; then
-    echo "No $CN.key found. Generating one"
-    openssl genrsa -out $CN.key $KEYBITS
+if [ ! -f ${cnKeyFile} ]; then
+    echo "No ${cnKeyFile} found. Generating one"
+    openssl genrsa -out ${cnKeyFile} $KEYBITS
     echo ""
 fi
 
@@ -100,7 +102,7 @@ if [ "$subjectAltNames" != "" ]; then
 fi
 
 echo "Fill in certificate data"
-openssl req -new -config $CONFIG -key $CN.key -out $CN.csr
+openssl req -new -config $CONFIG -key ${cnKeyFile} -out $CN.csr
 
 rm -f $CONFIG
 
