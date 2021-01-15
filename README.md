@@ -1,3 +1,10 @@
+# Fork https://github.com/etdey/ssl.ca and made below modification
+
+  - fix issues for latest openssl
+  - output files to ./output folder, and ignore them
+  - a little bit refactor
+
+
 # SSL/TLS Certificate Authority Package
 
 This package is a set of scripts designed to handle the tasks of an SSL
