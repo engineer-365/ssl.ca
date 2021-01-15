@@ -4,8 +4,6 @@
 ##  Copyright (c) 2000 Yeak Nai Siew, All Rights Reserved. 
 ##
 
-set -e
-
 export readonly this_dir=$(cd "$(dirname $0)";pwd)
 source $this_dir/ssl-vars.sh
 
@@ -90,7 +88,9 @@ if [ "$subjectAltNames" != "" ]; then
     fi
 
     # determine if this looks like an IP or a DNS name
+
     echo $san | egrep '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$' &> /dev/null
+
     if [ $? -eq 0 ]; then
       echo "IP.$numi = $san" >> $CONFIG
       let numi++
