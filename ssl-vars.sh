@@ -10,9 +10,9 @@ ORG_NAME="example-org"
 
 OUTPUT_DIR=${this_dir}/output
 if [ ! -d ${OUTPUT_DIR} ]; then
-	echo "Create output dir: ${OUTPUT_DIR}"
-	mkdir -p ${OUTPUT_DIR}
-	echo ""
+  echo "Create output dir: ${OUTPUT_DIR}"
+  mkdir -p ${OUTPUT_DIR}
+  echo ""
 fi
 
 FILE_CA_KEY=${OUTPUT_DIR}/ca.key

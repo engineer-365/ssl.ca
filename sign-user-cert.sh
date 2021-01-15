@@ -9,30 +9,30 @@ source $this_dir/ssl-vars.sh
 
 CERT=$1
 if [ $# -ne 1 ]; then
-        echo "Usage: $0 user@email.address.com"
-        exit 1
+  echo "Usage: $0 user@email.address.com"
+  exit 1
 fi
 if [ ! -f ${OUTPUT_DIR}/$CERT.csr ]; then
-        echo "No ${OUTPUT_DIR}/$CERT.csr found. You must create that first."
-	exit 1
+  echo "No ${OUTPUT_DIR}/$CERT.csr found. You must create that first."
+  exit 1
 fi
 # Check for root CA key
 if [ ! -f ${FILE_CA_KEY} -o ! -f ${FILE_CA_CRT} ]; then
-	echo "You must have root CA key generated first."
-	exit 1
+  echo "You must have root CA key generated first."
+  exit 1
 fi
 
 # Sign it with our CA key #
 
 #   make sure environment exists
 if [ ! -d ${DIR_CA_DB_CERTS} ]; then
-    mkdir ${DIR_CA_DB_CERTS}
+  mkdir ${DIR_CA_DB_CERTS}
 fi
 if [ ! -f ca.db.serial ]; then
-    echo '01' >ca.db.serial
+  echo '01' >ca.db.serial
 fi
 if [ ! -f ca.db.index ]; then
-    cp /dev/null ca.db.index
+  cp /dev/null ca.db.index
 fi
 
 #  create the CA requirement to sign the cert
@@ -52,22 +52,22 @@ default_days            = ${CLIENT_VALID_DAYS}
 default_crl_days        = 30
 default_md              = $HASHALGO
 preserve                = yes
-x509_extensions		= user_cert
+x509_extensions         = user_cert
 policy                  = policy_anything
 [ policy_anything ]
 commonName              = supplied
 emailAddress            = supplied
 [ user_cert ]
-#SXNetID		= 3:yeak
-subjectAltName		= email:copy
-basicConstraints	= critical,CA:false
-authorityKeyIdentifier	= keyid:always
-extendedKeyUsage	= clientAuth,emailProtection
+#SXNetID                = 3:yeak
+subjectAltName          = email:copy
+basicConstraints        = critical,CA:false
+authorityKeyIdentifier  = keyid:always
+extendedKeyUsage        = clientAuth,emailProtection
 EOT
 
 #  revoke an existing old certificate
 if [ -f $CERT.crt ]; then
-    openssl ca -revoke $CERT.crt -config ca.config
+  openssl ca -revoke $CERT.crt -config ca.config
 fi
 
 #  sign the certificate

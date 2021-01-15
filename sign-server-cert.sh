@@ -11,30 +11,30 @@ source $this_dir/ssl-vars.sh
 
 CN=$1
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <www.domain.com>"
-    exit 1
+  echo "Usage: $0 <www.domain.com>"
+  exit 1
 fi
 if [ ! -f $CN.csr ]; then
-    echo "No $CN.csr found. You must create that first."
-	exit 1
+  echo "No $CN.csr found. You must create that first."
+  exit 1
 fi
 # Check for root CA key
 if [ ! -f ${FILE_CA_KEY} -o ! -f ${FILE_CA_CRT} ]; then
-	echo "You must have root CA key generated first."
-	exit 1
+  echo "You must have root CA key generated first."
+  exit 1
 fi
 
 # Sign it with our CA key #
 
 #   make sure environment exists
 if [ ! -d ${DIR_CA_DB_CERTS} ]; then
-    mkdir -p ${DIR_CA_DB_CERTS}
+  mkdir -p ${DIR_CA_DB_CERTS}
 fi
 if [ ! -f ca.db.serial ]; then
-    echo '01' >ca.db.serial
+  echo '01' >ca.db.serial
 fi
 if [ ! -f ca.db.index ]; then
-    cp /dev/null ca.db.index
+  cp /dev/null ca.db.index
 fi
 
 
@@ -55,7 +55,7 @@ default_days            = ${SERVER_VALID_DAYS}
 default_crl_days        = 30
 default_md              = $HASHALGO
 preserve                = no
-x509_extensions		= server_cert
+x509_extensions         = server_cert
 policy                  = policy_anything
 [ policy_anything ]
 countryName             = optional
@@ -66,10 +66,10 @@ organizationalUnitName  = optional
 commonName              = supplied
 emailAddress            = optional
 [ server_cert ]
-#subjectKeyIdentifier	= hash
-authorityKeyIdentifier	= keyid:always
-extendedKeyUsage	= serverAuth,clientAuth,msSGC,nsSGC
-basicConstraints	= critical,CA:false
+#subjectKeyIdentifier   = hash
+authorityKeyIdentifier  = keyid:always
+extendedKeyUsage        = serverAuth,clientAuth,msSGC,nsSGC
+basicConstraints        = critical,CA:false
 [req]
 default_md              = $HASHALGO
 req_extensions          = v3_req
