@@ -102,7 +102,7 @@ if [ "$subjectAltNames" != "" ]; then
 fi
 
 echo "Fill in certificate data"
-openssl req -new -config $CONFIG -key ${cnKeyFile} -out $CN.csr
+openssl req -new -config $CONFIG -key ${cnKeyFile} -out ${OUTPUT_DIR}/$CN.csr
 
 rm -f $CONFIG
 
