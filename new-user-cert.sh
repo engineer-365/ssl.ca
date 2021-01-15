@@ -34,7 +34,7 @@ if [ ! -f ${certKeyFile} ]; then
 fi
 
 # Fill the necessary certificate data
-CONFIG="user-cert.conf"
+CONFIG="${OUTPUT_DIR}/user-cert.conf"
 cat >$CONFIG <<EOT
 [ req ]
 default_bits			= $KEYBITS
