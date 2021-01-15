@@ -33,8 +33,8 @@ fi
 if [ ! -f ${FILE_CA_DB_SERIAL} ]; then
   echo '01' >${FILE_CA_DB_SERIAL}
 fi
-if [ ! -f ca.db.index ]; then
-  cp /dev/null ca.db.index
+if [ ! -f ${FILE_CA_DB_INDEX} ]; then
+  cp /dev/null ${FILE_CA_DB_INDEX}
 fi
 
 #  create the CA requirement to sign the cert
@@ -45,7 +45,7 @@ default_ca              = default_CA
 dir                     = .
 certs                   = \$dir
 new_certs_dir           = ${DIR_CA_DB_CERTS}
-database                = \$dir/ca.db.index
+database                = ${FILE_CA_DB_INDEX}
 serial                  = ${FILE_CA_DB_SERIAL}
 RANDFILE                = ${RANDOM_SRC}
 certificate             = ${FILE_CA_CRT}
@@ -81,4 +81,4 @@ openssl verify -CAfile ${FILE_CA_CRT} ${certCrtFile}
 #  cleanup after SSLeay 
 rm -f ca.config
 rm -f ${FILE_CA_DB_SERIAL}.old
-rm -f ca.db.index.old
+rm -f ${FILE_CA_DB_INDEX}.old
