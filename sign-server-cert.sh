@@ -32,8 +32,8 @@ fi
 if [ ! -d ${DIR_CA_DB_CERTS} ]; then
   mkdir -p ${DIR_CA_DB_CERTS}
 fi
-if [ ! -f ca.db.serial ]; then
-  echo '01' >ca.db.serial
+if [ ! -f ${FILE_CA_DB_SERIAL} ]; then
+  echo '01' >${FILE_CA_DB_SERIAL}
 fi
 if [ ! -f ca.db.index ]; then
   cp /dev/null ca.db.index
@@ -49,7 +49,7 @@ dir                     = .
 certs                   = \$dir
 new_certs_dir           = ${DIR_CA_DB_CERTS}
 database                = \$dir/ca.db.index
-serial                  = \$dir/ca.db.serial
+serial                  = ${FILE_CA_DB_SERIAL}
 RANDFILE                = ${RANDOM_SRC}
 certificate             = ${FILE_CA_CRT}
 private_key             = ${FILE_CA_KEY}
@@ -103,5 +103,5 @@ echo ""
 
 #  cleanup after SSLeay 
 rm -f ca.config
-rm -f ca.db.serial.old
+rm -f ${FILE_CA_DB_SERIAL}.old
 rm -f ca.db.index.old
