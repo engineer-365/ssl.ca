@@ -4,7 +4,7 @@
 ##  Copyright (c) 2000 Yeak Nai Siew, All Rights Reserved. 
 ##
 
-set -x
+set -e
 
 export readonly this_dir=$(cd "$(dirname $0)";pwd)
 source $this_dir/ssl-vars.sh
