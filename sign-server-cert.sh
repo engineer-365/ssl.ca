@@ -40,7 +40,7 @@ if [ ! -f ${FILE_CA_DB_INDEX} ]; then
 fi
 
 caConfigFile=${OUTPUT_DIR}/ca.config
-cnCrtFile = ${OUTPUT_DIR}/$CN.crt
+cnCrtFile=${OUTPUT_DIR}/$CN.crt
 
 #  create the CA requirement to sign the cert
 cat >${caConfigFile} <<EOT
