@@ -38,7 +38,7 @@ CONFIG="${OUTPUT_DIR}/user-cert.conf"
 cat >$CONFIG <<EOT
 [ req ]
 default_bits			= $KEYBITS
-default_keyfile			= user.key
+default_keyfile			= ${FILE_DEFAULT_USER_KEY}
 default_md              = $HASHALGO
 distinguished_name		= req_distinguished_name
 string_mask			= nombstr
